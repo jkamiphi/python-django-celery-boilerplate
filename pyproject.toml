@@ -1,5 +1,5 @@
 [project]
-name = "oasitech-calc"
+name = "python-django-celery-boilerplate"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
