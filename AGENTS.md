@@ -31,7 +31,7 @@
 
 ## Git Conventions
 
-- **Branch naming**: `{initials}/{description}` (e.g., `jd/fix-login`)
+- **Branch naming**: `{type}/{description}` where `{type}` is a Conventional Commit type (e.g., `feat/login-page`, `fix/login-button`, `chore/update-deps`)
 - **Commit format**: Conventional Commits (`feat:`, `fix:`, `docs:`, etc.)
 - **PR titles**: Same as commit format
 
