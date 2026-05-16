@@ -19,6 +19,8 @@
 - `static/` - CSS, JavaScript, images
 - `tests/` - Test files
 - `tasks/` - Celery tasks
+- `ai-specs/` - AI specifications and skills documentation
+- `docs/` - Project documentation
 
 ## Code Style
 
@@ -82,12 +84,8 @@ Before implementing ANY task, check if relevant skills apply:
 - Exploring Django project (models, URLs, settings) → `django-extensions` skill
 - Creating new skills → `skill-creator` skill
 - Starting a new task → `onboard` skill
-- Working a ticket → `ticket` skill
-- Reviewing a PR → `pr-review` skill
-- Summarizing branch changes → `pr-summary` skill
 - Running quality checks → `code-quality` skill
 - Checking docs accuracy → `docs-sync` skill
-- Committing worktree changes and merging to master/main → `worktree-commit-merge` skill
 
 ## Common Commands
 
