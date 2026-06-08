@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 import os
+from datetime import timedelta
 from pathlib import Path
 
 import dj_database_url
@@ -45,11 +46,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     # Third party apps
     'django_extensions',
     'django_htmx',
-
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
+    'drf_spectacular',
     # Local apps
 ]
 
@@ -83,6 +86,38 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+
+
+# Django REST Framework
+# https://www.django-rest-framework.org/
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+}
+
+# Simple JWT
+# https://django-rest-framework-simplejwt.readthedocs.io/
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=int(os.getenv('JWT_ACCESS_MINUTES', '60'))),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=int(os.getenv('JWT_REFRESH_DAYS', '7'))),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
+
+# drf-spectacular (OpenAPI schema)
+# https://drf-spectacular.readthedocs.io/
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'API',
+    'DESCRIPTION': 'API documentation',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
 
 # Database
@@ -137,13 +172,19 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # Content Security Policy (Django 6.0)
 # https://docs.djangoproject.com/en/6.0/ref/middleware/#content-security-policy
 SECURE_CSP = {
-    "default-src": [CSP.SELF],
-    "script-src": [CSP.SELF, CSP.NONCE, "https://cdn.jsdelivr.net", "https://unpkg.com"],
-    "style-src": [CSP.SELF, CSP.UNSAFE_INLINE, "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
-    "font-src": [CSP.SELF, "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
-    "img-src": [CSP.SELF, "https:", "data:"],
-    "connect-src": [CSP.SELF],
-    "frame-src": [CSP.SELF],
+    'default-src': [CSP.SELF],
+    'script-src': [CSP.SELF, CSP.NONCE, 'https://cdn.jsdelivr.net', 'https://unpkg.com'],
+    'style-src': [
+        CSP.SELF,
+        CSP.UNSAFE_INLINE,
+        'https://fonts.googleapis.com',
+        'https://cdnjs.cloudflare.com',
+        'https://cdn.jsdelivr.net',
+    ],
+    'font-src': [CSP.SELF, 'https://fonts.gstatic.com', 'https://cdnjs.cloudflare.com'],
+    'img-src': [CSP.SELF, 'https:', 'data:'],
+    'connect-src': [CSP.SELF],
+    'frame-src': [CSP.SELF],
 }
 
 # Production security settings

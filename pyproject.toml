@@ -10,13 +10,18 @@ dependencies = [
     "django>=6.0.5",
     "django-extensions>=4.1",
     "django-htmx>=1.27.0",
+    "djangorestframework>=3.17.1",
+    "djangorestframework-simplejwt>=5.5.1",
     "dotenv>=0.9.9",
+    "drf-spectacular>=0.29.0",
     "psycopg[binary]>=3.3.4",
     "redis>=7.4.0",
 ]
 
 [dependency-groups]
 dev = [
+    "django-stubs>=6.0.5",
+    "djangorestframework-stubs>=3.17.0",
     "factory-boy>=3.3.3",
     "pyright>=1.1.409",
     "pytest>=9.0.3",
@@ -32,9 +37,15 @@ testpaths = ["tests", "apps"]
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+exclude = ["ai-specs"]
+
+[tool.ruff.format]
+quote-style = "single"
 
 [tool.pyright]
 pythonVersion = "3.12"
 typeCheckingMode = "strict"
+include = ["apps", "config", "tasks", "tests", "manage.py"]
+exclude = ["ai-specs", ".claude", ".codex", ".cursor", ".venv"]
 venvPath = "."
 venv = ".venv"
